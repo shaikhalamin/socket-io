@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>Socket io client example</title>
+    </head>
+    <body>
+        <ul>
+
+        </ul>
+        <form action="">
+            <input id="send_msg" type="text" name="chat" />
+            <button type="submit">Send Chat</button>
+        </form>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+        <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+        <script>
+        $(function () {
+            var socket = io.connect('http://127.0.0.1:3000?token=123456');
+
+            socket.on('connected',(data)=>{
+                console.log(data);
+            });
+
+            //broadcast received for all user except sender
+            socket.on('broadcast',(msg)=>{
+                console.log('message from :'+msg);
+            });
+            
+            //console.log(navigator);
+            $('form').submit(function(){
+                //console.log('form submitted ...');
+                socket.emit('emit-chat', $('#send_msg').val());
+                $('#send_msg').val('');
+            return false;
+            });
+        });
+        </script>
+    </body>
+</html>
