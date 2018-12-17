@@ -18,8 +18,9 @@ io.use((socket, next) => {
 }); 
 
 io.on('connection', (socket) => {
-
-    socket.emit('connected', 'You are connected message will be send with user infornation by the token');
+    
+    socket.emit('connected', 'You are connected message will be send with user infornation by the token'+socket.id);
+    console.log('Token id from start is '+ socket.id);
     console.log('token is:'+ socket.handshake.query.token);
        
     //console.log('connection established by :'+socket);
@@ -31,6 +32,8 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', function(){
+        //console.log(aa);
+        console.log(socket.id);
         console.log('user disconnected');
     });
 });
