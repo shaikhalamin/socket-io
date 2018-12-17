@@ -1,3 +1,5 @@
+
+#https://www.sitepoint.com/using-redis-node-js/
 #https://redis.io/commands/hdel
 ```javascript
 You can use same hmset/hset based on how many you want to add or update
@@ -27,5 +29,8 @@ client.hmset('frameworks', {
 #https://redis.io/commands/hdel
 
 client.hdel('offer', id)
+
+ client.hdel('online', socketId);
+
 
 ```

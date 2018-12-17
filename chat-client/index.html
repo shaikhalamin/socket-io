@@ -15,10 +15,17 @@
         <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
         <script>
         $(function () {
-            var socket = io.connect('http://127.0.0.1:3000?token=123456');
+            var randomnumber = Math.floor((Math.random() * 100) + 1);
+            var socket = io.connect('http://127.0.0.1:3000?token='+randomnumber);
 
             socket.on('connected',(data)=>{
-                console.log(data);
+               //var connectedUsers = JSON.parse(data);
+               console.log(data);
+                //console.log(Object.keys(connectedUsers).length);
+                // for(var i=0; i < connectedUsers.lenght;i++){
+                //     console.log(connectedUsers[i]);
+                // }
+                
             });
 
             //broadcast received for all user except sender

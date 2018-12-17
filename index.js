@@ -1,16 +1,27 @@
 const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
+const redis = require('redis');
+const client = redis.createClient();
+
 
 app.get('/', function(req, res){
     //res.send('<h1>Hello world</h1>');
     res.status(200);
 });
 
+client.on('connect', function() {
+    console.log('Redis client connected');
+});
+
+client.on('error', function (err) {
+    console.log('Something went wrong ' + err);
+});
+
 
 io.use((socket, next) => {
     let token = socket.handshake.query.token;
-    if(token === '123456'){
+    if(!token == ""){
         return next();
     }
         
@@ -18,10 +29,31 @@ io.use((socket, next) => {
 }); 
 
 io.on('connection', (socket) => {
+
     
-    socket.emit('connected', 'You are connected message will be send with user infornation by the token'+socket.id);
-    console.log('Token id from start is '+ socket.id);
-    console.log('token is:'+ socket.handshake.query.token);
+
+    let socketId = socket.id;
+    const userId = socket.handshake.query.token;
+    
+    let data = {};
+
+    data[socketId] = userId;
+    
+    //console.log(data);
+    JSON.stringify(data);
+    //console.log(data);
+
+    client.hmset('online', data);
+
+    var conectedUsers = {}; 
+    client.hgetall('online',(err, object)=>{
+        conectedUsers = object;
+        socket.emit('connected', conectedUsers);
+        console.log(conectedUsers);
+    });
+   
+    //console.log('Socket id from start is '+ socket.id);
+    //console.log('token is:'+ socket.handshake.query.token);
        
     //console.log('connection established by :'+socket);
     socket.on('emit-chat',(msg)=>{
@@ -33,8 +65,16 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', function(){
         //console.log(aa);
-        console.log(socket.id);
-        console.log('user disconnected');
+        //console.log(socket.id);
+        client.hdel('online', socketId);
+
+        client.hgetall('online',(err, object)=>{
+            conectedUsers = object;
+            socket.emit('connected', conectedUsers);
+            //console.log(conectedUsers);
+        });
+
+        console.log('user disconnected..'+socket.id);
     });
 });
 server.listen(3000,()=>{
