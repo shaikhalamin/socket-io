@@ -30,10 +30,9 @@ io.use((socket, next) => {
 
 io.on('connection', (socket) => {
 
-    
-
     let socketId = socket.id;
     const userId = socket.handshake.query.token;
+    socket.emit('new-joined', socketId);
     
     let data = {};
 
@@ -48,8 +47,9 @@ io.on('connection', (socket) => {
     var conectedUsers = {}; 
     client.hgetall('online',(err, object)=>{
         conectedUsers = object;
-        socket.emit('connected', conectedUsers);
-        console.log(conectedUsers);
+        socket.broadcast.emit('broadcast', conectedUsers);
+        socket.emit('me', conectedUsers);
+        //console.log(conectedUsers);
     });
    
     //console.log('Socket id from start is '+ socket.id);
@@ -59,7 +59,7 @@ io.on('connection', (socket) => {
     socket.on('emit-chat',(msg)=>{
         console.log('message recieved from client :'+msg);
         //broadcasting all user except sender
-        socket.broadcast.emit('broadcast', msg);
+        //socket.broadcast.emit('broadcast', msg);
 
     });
 
@@ -68,11 +68,14 @@ io.on('connection', (socket) => {
         //console.log(socket.id);
         client.hdel('online', socketId);
 
-        client.hgetall('online',(err, object)=>{
-            conectedUsers = object;
-            socket.emit('connected', conectedUsers);
-            //console.log(conectedUsers);
-        });
+        // client.hgetall('online',(err, object)=>{
+        //     conectedUsers = object;
+        //     if(conectedUsers){
+        //         socket.emit('connected', conectedUsers);
+        //         console.log(conectedUsers);
+        //     }
+            
+        // });
 
         console.log('user disconnected..'+socket.id);
     });

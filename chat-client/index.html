@@ -18,8 +18,9 @@
             var randomnumber = Math.floor((Math.random() * 100) + 1);
             var socket = io.connect('http://127.0.0.1:3000?token='+randomnumber);
 
-            socket.on('connected',(data)=>{
+            socket.on('broadcast',(data)=>{
                //var connectedUsers = JSON.parse(data);
+               console.log('broadcast received');
                console.log(data);
                 //console.log(Object.keys(connectedUsers).length);
                 // for(var i=0; i < connectedUsers.lenght;i++){
@@ -27,11 +28,13 @@
                 // }
                 
             });
-
-            //broadcast received for all user except sender
-            socket.on('broadcast',(msg)=>{
-                console.log('message from :'+msg);
+            socket.on('me',(data)=>{
+                console.log(data);
             });
+            //broadcast received for all user except sender
+            // socket.on('broadcast',(msg)=>{
+            //     console.log('message from :'+msg);
+            // });
             
             //console.log(navigator);
             $('form').submit(function(){
