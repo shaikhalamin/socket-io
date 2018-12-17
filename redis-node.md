@@ -1,4 +1,5 @@
 #https://redis.io/commands/hdel
+```javascript
 You can use same hmset/hset based on how many you want to add or update
 
 var redis = require('redis');
@@ -26,3 +27,5 @@ client.hmset('frameworks', {
 #https://redis.io/commands/hdel
 
 client.hdel('offer', id)
+
+```
