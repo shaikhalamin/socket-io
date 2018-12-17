@@ -59,3 +59,16 @@ console.log(unique(table,'a')); //[1,2]
 console.log(unique(table,'b')); //[2,3,4]
 
 ```
+
+
+```javascript
+
+//redis adaptar for all connected user
+#https://github.com/socketio/socket.io-redis
+
+io.of('/').adapter.clients(['room1', 'room2'], (err, clients) => {
+  console.log(clients); // an array containing socket ids in 'room1' and/or 'room2'
+});
+
+
+```
