@@ -32,13 +32,13 @@
                 console.log(data);
             });
             //broadcast received for all user except sender
-            // socket.on('broadcast',(msg)=>{
-            //     console.log('message from :'+msg);
-            // });
+            socket.on('to-others-'+1,(msg)=>{
+                console.log('message from :'+msg);
+            });
             
             //console.log(navigator);
             $('form').submit(function(){
-                //console.log('form submitted ...');
+                console.log('form submitted ...');
                 socket.emit('emit-chat', $('#send_msg').val());
                 $('#send_msg').val('');
             return false;

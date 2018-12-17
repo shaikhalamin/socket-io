@@ -57,6 +57,8 @@ io.on('connection', (socket) => {
        
     //console.log('connection established by :'+socket);
     socket.on('emit-chat',(msg)=>{
+
+        socket.broadcast.emit(`to-others-${1}`,msg);
         console.log('message recieved from client :'+msg);
         //broadcasting all user except sender
         //socket.broadcast.emit('broadcast', msg);
