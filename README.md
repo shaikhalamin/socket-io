@@ -16,6 +16,37 @@ io.sockets.on('connection', function(socket) {
 });
 ```
 
+
+```javascript
+
+//socketio room explained
+
+
+
+//server side code
+io.of("/games").on("connection", socket => {
+  //Welcome new joiners!
+  socket.emit("welcome", "This is the Gaming Channel!");
+
+    socket.on("joinRoom", room => {
+        console.log("Joining Room...: " + room);
+        if (registeredRooms.includes(room)) {
+            //Socket has joined the request room
+            return socket.emit("success", "Invalid Room Name: " + room);
+        } else {
+        //No room with the specified Name! (or it could be another reason).
+        return socket.emit("err", "Invalid Room Name: " + room);
+        }
+    }
+}
+
+#https://ipenywis.com/tutorials/Node.js-Socket.io-Make-a-Basic-Chat-Application-(Native-JS)-03
+
+
+
+```
+
+
 ```javascript
 //get unique value from a object
 function unique(arr, prop) {
