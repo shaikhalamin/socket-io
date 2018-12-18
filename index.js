@@ -4,6 +4,8 @@ const io = require('socket.io')(server);
 const redis = require('redis');
 const client = redis.createClient();
 
+const helpers = require('./helpers');
+
 
 app.get('/', function(req, res){
     //res.send('<h1>Hello world</h1>');
@@ -18,6 +20,7 @@ client.on('error', function (err) {
     console.log('Something went wrong ' + err);
 });
 
+//console.log(helpers.sayHelloInEnglish('hi'));
 
 io.use((socket, next) => {
     let token = socket.handshake.query.token;
@@ -38,19 +41,28 @@ io.on('connection', (socket) => {
 
     data[socketId] = userId;
     
-    //console.log(data);
-    JSON.stringify(data);
-    //console.log(data);
-
     client.hmset('online', data);
 
-    var conectedUsers = {}; 
+    var conectedUsers = [];
+     
     client.hgetall('online',(err, object)=>{
+
+
+        // const splitedObj = Object.keys(object).forEach(function(key) {
+        //     var value = object[key];
+        //     console.log(key, value)
+        //   });
         conectedUsers = object;
+        const splitedObj = Object.keys(object).filter((user)=>{
+            //console.log();
+        });
+         
+        //conectedUsers.push(object);
         socket.broadcast.emit('broadcast', conectedUsers);
         socket.emit('me', conectedUsers);
         //console.log(conectedUsers);
     });
+    
    
     //console.log('Socket id from start is '+ socket.id);
     //console.log('token is:'+ socket.handshake.query.token);
