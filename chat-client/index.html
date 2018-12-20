@@ -18,6 +18,12 @@
             var randomnumber = Math.floor((Math.random() * 100) + 1);
             var socket = io.connect('http://127.0.0.1:3000?token='+randomnumber);
 
+
+               
+            socket.on('allconnected',(data)=>{
+                console.log(data);
+            });
+
             socket.on('broadcast',(data)=>{
                //var connectedUsers = JSON.parse(data);
                console.log('broadcast received');
@@ -27,6 +33,10 @@
                 //     console.log(connectedUsers[i]);
                 // }
                 
+            });
+         
+            socket.on('new-joined',(data)=>{
+                console.log(data);
             });
             socket.on('me',(data)=>{
                 console.log(data);
