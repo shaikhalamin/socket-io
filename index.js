@@ -81,22 +81,22 @@ io.of("/").on("connection", socket => {
 
             client.hgetall('online',(err, object)=>{
 
-                let conectedUsers = {};
+                let remainingUsers = {};
     
-                const splitedObj = Object.keys(object).forEach(function(key) {
+                Object.keys(object).forEach(function(key) {
                     var value = object[key];
                     //console.log(key, value);
                     //console.log(clients);
                     if(clients.indexOf(key) != -1){
-                        conectedUsers[key] = object[key];
+                        remainingUsers[key] = object[key];
                     }else{
                         client.hdel('online', key);
                     }
                     
                 });
     
-                socket.broadcast.emit('broadcast', conectedUsers);
-                socket.emit('me', conectedUsers);
+                socket.broadcast.emit('broadcast', remainingUsers);
+                socket.emit('me', remainingUsers);
             });
         });
 
