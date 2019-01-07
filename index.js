@@ -78,6 +78,26 @@ io.of("/").on("connection", socket => {
             console.log('user disconnected');
             //need to broadcast deleted user info to all because no body knows who is not in online now
             client.hdel('online', socketId);
+
+            client.hgetall('online',(err, object)=>{
+
+                let conectedUsers = {};
+    
+                const splitedObj = Object.keys(object).forEach(function(key) {
+                    var value = object[key];
+                    //console.log(key, value);
+                    //console.log(clients);
+                    if(clients.indexOf(key) != -1){
+                        conectedUsers[key] = object[key];
+                    }else{
+                        client.hdel('online', key);
+                    }
+                    
+                });
+    
+                socket.broadcast.emit('broadcast', conectedUsers);
+                socket.emit('me', conectedUsers);
+            });
         });
 
         //console.log(clients.indexOf(socketId));
