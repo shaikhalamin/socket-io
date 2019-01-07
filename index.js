@@ -11,7 +11,7 @@ const helpers = require('./helpers');
 
 app.get('/', function(req, res){
     //res.send('<h1>Hello world</h1>');
-    res.status(200);
+    res.status(200).send('<h1>Hello world</h1>');
 });
 
 client.on('connect', function() {
@@ -86,6 +86,8 @@ io.of("/").on("connection", socket => {
 
   });
 
-server.listen(3000,()=>{
-    console.log('Server started on :'+3000);
+const PORT = process.env.PORT || 5000;
+
+server.listen(PORT,()=>{
+    console.log('Server started on :'+PORT);
 });

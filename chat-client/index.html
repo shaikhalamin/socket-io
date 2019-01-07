@@ -16,9 +16,9 @@
         <script>
         $(function () {
             var randomnumber = Math.floor((Math.random() * 100) + 1);
-            var socket = io.connect('http://127.0.0.1:3000?token='+randomnumber);
+            var socket = io.connect('http://104.248.155.229:5000?token='+randomnumber);
 
-
+               
                
             socket.on('allconnected',(data)=>{
                 console.log(data);
