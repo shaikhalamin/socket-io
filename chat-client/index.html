@@ -16,7 +16,7 @@
         <script>
         $(function () {
             var randomnumber = Math.floor((Math.random() * 100) + 1);
-            var socket = io.connect('http://104.248.155.229:5000?token='+randomnumber);
+            var socket = io.connect('http://localhost:5000?token='+randomnumber);
 
                
                
@@ -35,23 +35,29 @@
                 
             });
          
-            socket.on('new-joined',(data)=>{
-                console.log(data);
-            });
+           
             socket.on('me',(data)=>{
                 console.log(data);
             });
             //broadcast received for all user except sender
-            socket.on('to-others-'+1,(msg)=>{
-                console.log('message from :'+msg);
+            socket.on('to-doctor-'+1,(msg)=>{
+                alert(msg);
             });
             
             //console.log(navigator);
             $('form').submit(function(){
                 console.log('form submitted ...');
-                socket.emit('emit-chat', $('#send_msg').val());
+                var dataValue = $('#send_msg').val();
+
+                var dataObject = {
+                        message: dataValue,
+                        senderId:2,
+                        receiverId:1
+                    }
+
+                socket.emit('request-meeting', { dataObject });
                 $('#send_msg').val('');
-            return false;
+                return false;
             });
         });
         </script>

@@ -65,12 +65,13 @@ io.of("/").on("connection", socket => {
             socket.emit('me', conectedUsers);
         });
 
-        socket.on('emit-chat',(msg)=>{
-
-            socket.broadcast.emit(`to-others-${1}`,msg);
-            console.log('message recieved from client :'+msg);
+        socket.on('request-meeting',(data)=>{
+            console.log('form data received');
+            console.log(data.dataObject);
+            socket.broadcast.emit(`to-doctor-${data.dataObject.receiverId}`,data.dataObject.message);
+            //console.log('message recieved from client :'+msg);
             // broadcasting all user except sender
-            socket.broadcast.emit('broadcast', msg);
+            //socket.broadcast.emit('broadcast', msg);
             
         });
 
@@ -82,26 +83,27 @@ io.of("/").on("connection", socket => {
             client.hgetall('online',(err, object)=>{
 
                 let remainingUsers = {};
-    
-                Object.keys(object).forEach(function(key) {
-                    var value = object[key];
-                    //console.log(key, value);
-                    //console.log(clients);
-                    if(clients.indexOf(key) != -1){
-                        remainingUsers[key] = object[key];
-                    }else{
-                        client.hdel('online', key);
-                    }
-                    
-                });
-    
+                
+                if(object){
+
+                    Object.keys(object).forEach(function(key) {
+                        var value = object[key];
+                        //console.log(key, value);
+                        //console.log(clients);
+                        if(clients.indexOf(key) != -1){
+                            remainingUsers[key] = object[key];
+                        }else{
+                            client.hdel('online', key);
+                        }
+                        
+                    });
+                }
+                
                 socket.broadcast.emit('broadcast', remainingUsers);
                 socket.emit('me', remainingUsers);
             });
         });
 
-        //console.log(clients.indexOf(socketId));
-        socket.emit("new-joined", "This is the new implementation of socket io with namespace"+socketId);
     });
 
   });
