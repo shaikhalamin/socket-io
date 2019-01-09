@@ -68,11 +68,24 @@ io.of("/").on("connection", socket => {
         socket.on('request-meeting',(data)=>{
             console.log('form data received');
             console.log(data.dataObject);
+            const docterData = {
+                message: data.dataObject.message,
+                callerInfo:data.dataObject.name
+                        
+            }
             socket.broadcast.emit(`to-doctor-${data.dataObject.receiverId}`,data.dataObject.message);
             //console.log('message recieved from client :'+msg);
             // broadcasting all user except sender
             //socket.broadcast.emit('broadcast', msg);
             
+        });
+
+        socket.on('request-accepted',(data)=>{
+            socket.broadcast.emit(`acceptedFeedback-to-patient-${data.patientId}`,data);
+        });
+
+        socket.on('request-rejected',(data)=>{
+            socket.broadcast.emit(`rejectedFeedback-to-patient-${data.patientId}`,data);
         });
 
         socket.on('disconnect', function(){
