@@ -81,7 +81,7 @@ io.of("/").on("connection", socket => {
         });
 
         socket.on('request-accepted',(data)=>{
-            console.log("request rejected received");
+            console.log("request acceped received");
             console.log(data);
             const accepteddData = {
                 data: data.dataObject
