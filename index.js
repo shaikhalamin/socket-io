@@ -89,8 +89,12 @@ io.of("/").on("connection", socket => {
         socket.on('request-rejected',(data)=>{
             console.log("request rejected received");
             console.log(data);
+
+            const rejectedData = {
+                data: data.dataObject
+            }
             
-            socket.broadcast.emit(`rejectedFeedback-to-patient-${data.patientId}`,{data});
+            socket.broadcast.emit(`rejectedFeedback-to-patient-${data.patientId}`,rejectedData);
         });
 
         socket.on('disconnect', function(){
