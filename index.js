@@ -81,10 +81,12 @@ io.of("/").on("connection", socket => {
         });
 
         socket.on('request-accepted',(data)=>{
+            console.log(data);
             socket.broadcast.emit(`acceptedFeedback-to-patient-${data.patientId}`,data);
         });
 
         socket.on('request-rejected',(data)=>{
+            console.log(data);
             socket.broadcast.emit(`rejectedFeedback-to-patient-${data.patientId}`,data);
         });
 
