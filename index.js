@@ -64,7 +64,7 @@ io.of("/").on("connection", socket => {
 
             socket.broadcast.emit('broadcast', conectedUsers);
             socket.emit('me', conectedUsers);
-            console.log(conectedUsers);
+            //console.log(conectedUsers);
         });
 
         socket.on('request-meeting',(data)=>{
@@ -73,13 +73,11 @@ io.of("/").on("connection", socket => {
             const docterData = {
                 message: data.dataObject.message,
                 callerInfo:data.dataObject.name,
+                senderId:data.dataObject.senderId,
+                receiverId:data.dataObject.receiverId,
                 meetingId: uniqid(data.dataObject.name)
             }
             socket.broadcast.emit(`to-doctor-${data.dataObject.receiverId}`,docterData);
-            //console.log('message recieved from client :'+msg);
-            // broadcasting all user except sender
-            //socket.broadcast.emit('broadcast', msg);
-            
         });
 
         socket.on('request-accepted',(data)=>{
