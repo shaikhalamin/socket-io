@@ -83,13 +83,14 @@ io.of("/").on("connection", socket => {
         socket.on('request-accepted',(data)=>{
             console.log("request accepted received");
             console.log(data);
-            socket.broadcast.emit(`acceptedFeedback-to-patient-${data.patientId}`,data);
+            socket.broadcast.emit(`acceptedFeedback-to-patient-${data.patientId}`,{data});
         });
 
         socket.on('request-rejected',(data)=>{
             console.log("request rejected received");
             console.log(data);
-            socket.broadcast.emit(`rejectedFeedback-to-patient-${data.patientId}`,data);
+            
+            socket.broadcast.emit(`rejectedFeedback-to-patient-${data.patientId}`,{data});
         });
 
         socket.on('disconnect', function(){
