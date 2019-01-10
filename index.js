@@ -86,7 +86,7 @@ io.of("/").on("connection", socket => {
             const accepteddData = {
                 data: data.dataObject
             }
-            socket.broadcast.emit(`acceptedFeedback-to-patient-${data.patientId}`,accepteddData);
+            socket.broadcast.emit(`acceptedFeedback-to-patient-${data.dataObject.senderId}`,accepteddData);
         });
 
         socket.on('request-rejected',(data)=>{
