@@ -94,7 +94,7 @@ io.of("/").on("connection", socket => {
                 data: data.dataObject
             }
             
-            socket.broadcast.emit(`rejectedFeedback-to-patient-${data.patientId}`,rejectedData);
+            socket.broadcast.emit(`rejectedFeedback-to-patient-${data.dataObject.senderId}`,rejectedData);
         });
 
         socket.on('disconnect', function(){
