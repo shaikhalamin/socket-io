@@ -5,6 +5,7 @@ const redisAdapter = require('socket.io-redis');
 io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
 const redis = require('redis');
 const client = redis.createClient();
+const uniqid = require('uniqid');
 
 const helpers = require('./helpers');
 
@@ -63,6 +64,7 @@ io.of("/").on("connection", socket => {
 
             socket.broadcast.emit('broadcast', conectedUsers);
             socket.emit('me', conectedUsers);
+            console.log(conectedUsers);
         });
 
         socket.on('request-meeting',(data)=>{
@@ -70,10 +72,10 @@ io.of("/").on("connection", socket => {
             console.log(data.dataObject);
             const docterData = {
                 message: data.dataObject.message,
-                callerInfo:data.dataObject.name
-                        
+                callerInfo:data.dataObject.name,
+                meetingId: uniqid(data.dataObject.name)
             }
-            socket.broadcast.emit(`to-doctor-${data.dataObject.receiverId}`,data.dataObject.message);
+            socket.broadcast.emit(`to-doctor-${data.dataObject.receiverId}`,docterData);
             //console.log('message recieved from client :'+msg);
             // broadcasting all user except sender
             //socket.broadcast.emit('broadcast', msg);

@@ -40,8 +40,9 @@
                 console.log(data);
             });
             //broadcast received for all user except sender
-            socket.on('to-doctor-'+1,(msg)=>{
-                alert(msg);
+            socket.on('to-doctor-'+1,(data)=>{
+                console.log('docter informed');
+                console.log(data);
             });
             
             //console.log(navigator);
