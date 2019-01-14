@@ -118,6 +118,7 @@ io.of("/").on("connection", socket => {
                 if(object){
                     console.log('On disconnect redis connected user info');
                     console.log(object);
+                    socket.broadcast.emit('broadcast', object);
                     // Object.keys(object).forEach(function(key) {
                     //     var value = object[key];
                     //     if(clients.indexOf(key) != -1){
