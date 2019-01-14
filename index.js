@@ -65,6 +65,7 @@ io.of("/").on("connection", socket => {
             socket.broadcast.emit('broadcast', conectedUsers);
             socket.emit('me', conectedUsers);
             console.log('connected users');
+            console.log(clients);
             //console.log(conectedUsers);
         });
 
