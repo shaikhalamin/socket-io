@@ -37,7 +37,7 @@ io.use((socket, next) => {
 io.of("/").on("connection", socket => {
 
     io.of('/').adapter.clients((err, clients) => {
-        console.log(clients); // an array containing all connected socket ids
+        //console.log(clients); // an array containing all connected socket ids
         socket.emit('allconnected', clients);
         
         let socketId = socket.id;
@@ -65,7 +65,7 @@ io.of("/").on("connection", socket => {
             socket.broadcast.emit('broadcast', conectedUsers);
             socket.emit('me', conectedUsers);
             console.log('connected users');
-            console.log(conectedUsers);
+            //console.log(conectedUsers);
         });
 
         socket.on('request-meeting',(data)=>{
@@ -128,7 +128,7 @@ io.of("/").on("connection", socket => {
                 
                 socket.broadcast.emit('broadcast', remainingUsers);
                 socket.emit('me', remainingUsers);
-                console.log(remainingUsers);
+                //console.log(remainingUsers);
             });
         });
 
