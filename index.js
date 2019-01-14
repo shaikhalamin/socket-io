@@ -49,6 +49,8 @@ io.of("/").on("connection", socket => {
         client.hmset('online', data);
 
         client.hgetall('online',(err, object)=>{
+            console.log('all redis connected data');
+            console.log(object);
 
             let conectedUsers = {};
 
