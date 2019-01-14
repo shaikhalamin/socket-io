@@ -113,26 +113,11 @@ io.of("/").on("connection", socket => {
 
             client.hgetall('online',(err, object)=>{
 
-                let remainingUsers = {};
-                
                 if(object){
                     console.log('On disconnect redis connected user info');
                     console.log(object);
                     socket.broadcast.emit('broadcast', object);
-                    // Object.keys(object).forEach(function(key) {
-                    //     var value = object[key];
-                    //     if(clients.indexOf(key) != -1){
-                    //         remainingUsers[key] = object[key];
-                    //     }else{
-                    //         client.hdel('online', key);
-                    //     }
-                        
-                    // });
                 }
-                
-                //socket.broadcast.emit('broadcast', remainingUsers);
-                //socket.emit('me', remainingUsers);
-                //console.log(remainingUsers);
             });
         });
 
