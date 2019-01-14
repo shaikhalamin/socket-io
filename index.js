@@ -37,6 +37,8 @@ io.use((socket, next) => {
 io.of("/").on("connection", socket => {
 
     io.of('/').adapter.clients((err, clients) => {
+        console.log('connected users');
+        console.log(clients);
         //console.log(clients); // an array containing all connected socket ids
         socket.emit('allconnected', clients);
         
@@ -64,8 +66,7 @@ io.of("/").on("connection", socket => {
 
             socket.broadcast.emit('broadcast', conectedUsers);
             socket.emit('me', conectedUsers);
-            console.log('connected users');
-            console.log(clients);
+            
             //console.log(conectedUsers);
         });
 
