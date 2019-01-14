@@ -105,6 +105,7 @@ io.of("/").on("connection", socket => {
             console.log('user disconnected');
             //need to broadcast deleted user info to all because no body knows who is not in online now
             client.hdel('online', socketId);
+            console.log(clients);
 
             client.hgetall('online',(err, object)=>{
 
