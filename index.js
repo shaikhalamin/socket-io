@@ -64,11 +64,12 @@ io.of("/").on("connection", socket => {
 
             socket.broadcast.emit('broadcast', conectedUsers);
             socket.emit('me', conectedUsers);
-            //console.log(conectedUsers);
+            console.log('connected users');
+            console.log(conectedUsers);
         });
 
         socket.on('request-meeting',(data)=>{
-            console.log('form data received');
+            console.log('meeting request received');
             console.log(data.dataObject);
             const docterData = {
                 message: data.dataObject.message,
@@ -126,6 +127,7 @@ io.of("/").on("connection", socket => {
                 
                 socket.broadcast.emit('broadcast', remainingUsers);
                 socket.emit('me', remainingUsers);
+                console.log(remainingUsers);
             });
         });
 
