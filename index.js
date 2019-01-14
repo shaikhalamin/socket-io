@@ -108,31 +108,31 @@ io.of("/").on("connection", socket => {
         socket.on('disconnect', function(){
             console.log('user disconnected');
             //need to broadcast deleted user info to all because no body knows who is not in online now
-            //client.hdel('online', socketId);
+            client.hdel('online', socketId);
             console.log(clients);
 
-            client.hgetall('online',(err, object)=>{
+            // client.hgetall('online',(err, object)=>{
 
-                let remainingUsers = {};
+            //     let remainingUsers = {};
                 
-                if(object){
-                    console.log('On disconnect redis connected user info');
-                    console.log(object);
-                    // Object.keys(object).forEach(function(key) {
-                    //     var value = object[key];
-                    //     if(clients.indexOf(key) != -1){
-                    //         remainingUsers[key] = object[key];
-                    //     }else{
-                    //         client.hdel('online', key);
-                    //     }
+            //     if(object){
+            //         console.log('On disconnect redis connected user info');
+            //         console.log(object);
+            //         // Object.keys(object).forEach(function(key) {
+            //         //     var value = object[key];
+            //         //     if(clients.indexOf(key) != -1){
+            //         //         remainingUsers[key] = object[key];
+            //         //     }else{
+            //         //         client.hdel('online', key);
+            //         //     }
                         
-                    // });
-                }
+            //         // });
+            //     }
                 
-                //socket.broadcast.emit('broadcast', remainingUsers);
-                //socket.emit('me', remainingUsers);
-                //console.log(remainingUsers);
-            });
+            //     //socket.broadcast.emit('broadcast', remainingUsers);
+            //     //socket.emit('me', remainingUsers);
+            //     //console.log(remainingUsers);
+            // });
         });
 
     });
