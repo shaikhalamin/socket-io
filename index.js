@@ -1,7 +1,13 @@
 const app = require('express')();
 const crypto = require('crypto'),
       fs = require("fs");
-const server = require('https').createServer(app);
+
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/monerdaktar.com/privkey.pem').toString();
+const certificate = fs.readFileSync('/etc/letsencrypt/live/monerdaktar.com/fullchain.pem').toString();
+
+var options = {key: privateKey,cert: certificate,rejectUnauthorized:false};
+
+const server = require('https').createServer(options,app);
 const io = require('socket.io')(server);
 const redisAdapter = require('socket.io-redis');
 io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
@@ -9,12 +15,11 @@ const redis = require('redis');
 const client = redis.createClient();
 const uniqid = require('uniqid');
 
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/monerdaktar.com/privkey.pem').toString();
-const certificate = fs.readFileSync('/etc/letsencrypt/live/monerdaktar.com/fullchain.pem').toString();
+
 
 var credentials = crypto.createCredentials({key: privateKey, cert: certificate});
 
-server.setSecure(credentials);
+//server.setSecure(credentials);
 
 const helpers = require('./helpers');
 
