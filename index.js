@@ -1,13 +1,26 @@
 const app = require('express')();
-const crypto = require('crypto'),
+const https = require('https'),
       fs = require("fs");
 
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/monerdaktar.com/privkey.pem').toString();
-const certificate = fs.readFileSync('/etc/letsencrypt/live/monerdaktar.com/fullchain.pem').toString();
+//const privateKey = fs.readFileSync('privkey.pem').toString();//old configurations
+//const certificate = fs.readFileSync('fullchain.pem').toString();//old configurations
 
-var options = {key: privateKey,cert: certificate,rejectUnauthorized:false};
 
-const server = require('https').createServer(options,app);
+//const privateKey = fs.readFileSync('/etc/letsencrypt/live/monerdaktar.com/privkey.pem', 'utf8');
+//const certificate = fs.readFileSync('/etc/letsencrypt/live/monerdaktar.com/cert.pem', 'utf8');
+//const ca = fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/fullchain.pem', 'utf8');
+
+//const credentials = {
+//	key: privateKey,
+//	cert: certificate,
+//	ca: ca
+//};
+
+
+//var options = {key: privateKey,cert: certificate,rejectUnauthorized:false};//old configurations
+
+//const server = require('https').createServer(options,app);
+const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const redisAdapter = require('socket.io-redis');
 io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
@@ -17,7 +30,7 @@ const uniqid = require('uniqid');
 
 
 
-var credentials = crypto.createCredentials({key: privateKey, cert: certificate});
+//var credentials = crypto.createCredentials({key: privateKey, cert: certificate});
 
 //server.setSecure(credentials);
 
@@ -144,3 +157,17 @@ const PORT = process.env.PORT || 5000;
 server.listen(PORT,()=>{
     console.log('Server started on :'+PORT);
 });
+
+
+
+//const httpServer = http.createServer(app);
+//const httpsServer = https.createServer(credentials, app);
+
+//httpServer.listen(80, () => {
+//	console.log('HTTP Server running on port 80');
+//});
+
+//httpsServer.listen(443, () => {
+//	console.log('HTTPS Server running on port 443');
+//});
+
