@@ -6,9 +6,9 @@ const https = require('https'),
 //const certificate = fs.readFileSync('fullchain.pem').toString();//old configurations
 
 
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/monerdaktar.com/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/monerdaktar.com/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/fullchain.pem', 'utf8');
+const privateKey = fs.readFileSync('privkey.pem', 'utf8');
+const certificate = fs.readFileSync('cert.pem', 'utf8');
+const ca = fs.readFileSync('fullchain.pem', 'utf8');
 
 const options = {
 	key: privateKey,
