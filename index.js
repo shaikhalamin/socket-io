@@ -6,21 +6,21 @@ const https = require('https'),
 //const certificate = fs.readFileSync('fullchain.pem').toString();//old configurations
 
 
-//const privateKey = fs.readFileSync('/etc/letsencrypt/live/monerdaktar.com/privkey.pem', 'utf8');
-//const certificate = fs.readFileSync('/etc/letsencrypt/live/monerdaktar.com/cert.pem', 'utf8');
-//const ca = fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/fullchain.pem', 'utf8');
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/monerdaktar.com/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/monerdaktar.com/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/fullchain.pem', 'utf8');
 
-//const credentials = {
-//	key: privateKey,
-//	cert: certificate,
-//	ca: ca
-//};
+const options = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
 
 
 //var options = {key: privateKey,cert: certificate,rejectUnauthorized:false};//old configurations
 
-//const server = require('https').createServer(options,app);
-const server = require('http').createServer(app);
+const server = require('https').createServer(options,app);
+//const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const redisAdapter = require('socket.io-redis');
 io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
